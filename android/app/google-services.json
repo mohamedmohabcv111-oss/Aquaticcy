@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "452365215450",
+    "project_id": "aquaticcyandroid",
+    "storage_bucket": "aquaticcyandroid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452365215450:android:3c04a471975ff1a5e967e3",
+        "android_client_info": {
+          "package_name": "com.example.aquaticcy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNsH_46KK0SWSsGJP3X-cYh3o7_T_xlG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
