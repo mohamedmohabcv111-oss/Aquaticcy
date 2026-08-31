@@ -1,4 +1,5 @@
 import 'package:aquaticcy/pages/Login.dart';
+import 'package:aquaticcy/pages/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.login: (context) => const Login(),
         AppRoutes.home: (context) => const Home(),
         AppRoutes.leaderboard: (context) => const Leaderboard(),
+        AppRoutes.profile:(context)=> const Profile(),
       },
     );
   }

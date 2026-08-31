@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aquaticcy/widgets/appbar.dart';
 import 'package:aquaticcy/widgets/bottomnavbar.dart';
+import 'package:aquaticcy/widgets/drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,15 +20,17 @@ class _HomeState extends State<Home> {
     return Scaffold(
             appBar: AquaticcyAppBar(),
 
-            endDrawer: const AquaticcyDrawer(),
+            endDrawer: const AquaticcyDrawer(currentPage: 'Home'),
 
             body: Container(
+              width: double.infinity,
+              height: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: const AssetImage('assets/pixelimg1.png'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                    Colors.white.withValues(alpha: 0.5),
+                    Colors.white.withValues(alpha: 0.3),
                     BlendMode.srcOver,
                   ),
                 ),

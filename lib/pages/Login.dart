@@ -1,3 +1,6 @@
+import 'package:aquaticcy/Services/user_service.dart';
+import 'package:aquaticcy/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +13,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
-  // final _nameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpassword = TextEditingController();
   bool _passwordsMatch = true;
@@ -23,11 +26,25 @@ class _LoginState extends State<Login> {
   }
 
   Future signUp() async {
-    if (passwordconfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+    try {
+      if (passwordconfirmed()) {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            );
+
+        final userid = credential.user!.uid;
+
+        final user = UserModel(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+        );
+
+        await UserService().createUser(user, userid);
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
     }
   }
 
@@ -48,7 +65,7 @@ class _LoginState extends State<Login> {
   @override
   void dispose() {
     _emailController.dispose();
-    // _nameController.dispose();
+    _nameController.dispose();
     _passwordController.dispose();
     _confirmpassword.dispose();
     super.dispose();
@@ -64,8 +81,8 @@ class _LoginState extends State<Login> {
           padding: const EdgeInsets.only(
             left: 30,
             right: 30,
-            bottom: 30,
-            top: 50,
+            bottom: 20,
+            top: 35,
           ),
           child: Center(
             child: Column(
@@ -140,10 +157,68 @@ class _LoginState extends State<Login> {
                             children: [
                               SingleChildScrollView(
                                 child: Transform.translate(
-                                  offset: const Offset(0, 30),
+                                  offset: const Offset(0, 14),
 
                                   child: Column(
                                     children: [
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color: Color(0xFF003366),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            'NAME',
+                                            style: TextStyle(
+                                              fontFamily: 'Courier',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: Color(0xFF003366),
+                                              letterSpacing: 1.2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFE2EAF8),
+                                          border: Border.all(
+                                            color: const Color(0xFF707A6F),
+                                            width: 4.0,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 30,
+                                          ),
+                                          child: TextField(
+                                            controller: _nameController,
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText:
+                                                  "ENTER YOUR USERNAME...",
+                                              hintStyle: TextStyle(
+                                                fontFamily: 'Courier',
+                                                color: Color(0xFF5A758F),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            style: TextStyle(
+                                              fontFamily: 'Courier',
+                                              color: Color(0xFF003366),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 13),
                                       //email
                                       Row(
                                         children: const [
@@ -200,7 +275,7 @@ class _LoginState extends State<Login> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 13),
 
                                       //password
                                       Row(
@@ -262,7 +337,7 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 13),
 
                                       //confirm password
                                       Row(
@@ -334,9 +409,7 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
 
-                                    
-
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 15),
 
                                       //signup button
                                       GestureDetector(
@@ -382,7 +455,7 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
 
-                                      const SizedBox(height: 30),
+                                      const SizedBox(height: 10),
 
                                       const Text(
                                         "New here? Sign up to play.",
