@@ -45,7 +45,7 @@ class _LeaderboardState extends State<Leaderboard> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('assets/pixelimg3.png'),
+            image: const AssetImage('assets/images/pixelimg3.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.white.withValues(alpha: 0.3),

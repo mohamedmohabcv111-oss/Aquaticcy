@@ -3,4 +3,5 @@ class AppRoutes {
   static const String home = '/home';
   static const String leaderboard = '/leaderboard';
   static const String profile = '/profile';
+    static const String choose = '/choose';
 }

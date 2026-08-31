@@ -20,21 +20,19 @@ class UserService {
 
   Future<List<UserModel?>> getallusers() async {
     final snapshot = await _firestore.collection("users").get();
-
-    
     List<UserModel?> allUsers = [];
 
-    
     for (var document in snapshot.docs) {
-     
       final user = UserModel.fromMap(document.data());
-      
-      
       allUsers.add(user);
     }
-
-    
     return allUsers;
+  }
+
+  Future<void> changeprofilepic(String uid , String imagepath) async {
+    await _firestore.collection("users").doc(uid).update({
+      'profilePicture' : imagepath,
+    });
   }
 
   Future<void> addWin(String uid) async {

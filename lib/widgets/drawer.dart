@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'audiomaster.dart';
 
 class AquaticcyDrawer extends StatelessWidget {
   final String currentPage;
@@ -25,7 +26,7 @@ class AquaticcyDrawer extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(
             top: 100, 
-            bottom: currentPage == 'Profile' ? 570 : 450, 
+            bottom: currentPage == 'Profile' ? 500 : 380, 
             left: 90
           ),
           padding: const EdgeInsets.all(20),
@@ -75,6 +76,9 @@ class AquaticcyDrawer extends StatelessWidget {
               SizedBox(height: currentPage == 'Profile' ? 15 : 30),
               Column(
                 children: [
+                  const Audiomaster(),
+                  
+                  const SizedBox(height: 16),
                   if (currentPage != 'Profile') ...[
                     Container(
                       width: double.infinity,

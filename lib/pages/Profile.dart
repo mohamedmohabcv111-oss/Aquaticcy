@@ -60,7 +60,7 @@ class _MyWidgetState extends State<Profile> {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('assets/pixelimg2.png'),
+            image: const AssetImage('assets/images/pixelimg2.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.white.withValues(alpha: 0.3),
@@ -68,7 +68,7 @@ class _MyWidgetState extends State<Profile> {
             ),
           ),
         ),
-        child: SingleChildScrollView(
+        
           child: Padding(
             padding: const EdgeInsets.only(
               bottom: 20,
@@ -144,7 +144,9 @@ class _MyWidgetState extends State<Profile> {
                                 ],
                               ),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/choose');
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF8B4E73),
                                   foregroundColor: Colors.white,
@@ -352,7 +354,6 @@ class _MyWidgetState extends State<Profile> {
               ],
             ),
           ),
-        ),
       ),
 
       bottomNavigationBar: const AquaticcyBottomNavBar(

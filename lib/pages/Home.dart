@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
               height: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: const AssetImage('assets/pixelimg1.png'),
+                  image: const AssetImage('assets/images/pixelimg1.png'),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                     Colors.white.withValues(alpha: 0.3),

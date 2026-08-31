@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class UserModel {
   final String name;
@@ -12,7 +11,7 @@ class UserModel {
   UserModel({
     required this.name,
     required this.email,
-    this.profilePicture = 'assets/warroir.png',
+    this.profilePicture = 'assets/images/warroir.png',
     this.gamesWon = 0,
     this.gamesLost = 0,
     this.gamesDrawn = 0,
@@ -37,7 +36,7 @@ class UserModel {
     return UserModel(
       name: map['name'] ?? '',
       email: map['email'] ?? '',
-      profilePicture: map['profilePicture'] ?? 'assets/warroir.png',
+      profilePicture: map['profilePicture'] ?? 'assets/images/warroir.png',
       gamesWon: map['gamesWon'] ?? 0,
       gamesLost: map['gamesLost'] ?? 0,
       gamesDrawn: map['gamesDrawn'] ?? 0,
