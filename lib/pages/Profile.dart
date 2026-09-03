@@ -4,7 +4,6 @@ import 'package:aquaticcy/widgets/appbar.dart';
 import 'package:aquaticcy/widgets/bottomnavbar.dart';
 import 'package:aquaticcy/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -46,7 +45,7 @@ class _MyWidgetState extends State<Profile> {
           userdata!.gamesWon + userdata!.gamesLost + userdata!.gamesDrawn;
 
       if (totalGames > 0) {
-        winRateText = "${((userdata!.gamesWon / totalGames) * 100)}%";
+        winRateText = "${((userdata!.gamesWon / totalGames) * 100).toInt()}%";
       }
     }
 

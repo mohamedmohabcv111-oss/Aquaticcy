@@ -27,12 +27,9 @@ class AquaticcyBottomNavBar extends StatelessWidget {
 
         if (index == 1 && currentRoute != '/leaderboard') {
           Navigator.pushNamed(context, '/leaderboard');
-        } else if (index == 0 && currentRoute != '/home') {
-          if (Navigator.canPop(context)) {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-          } else {
+        } else if (index == 0 && currentRoute != '/home') {{    
             Navigator.pushReplacementNamed(context, '/home');
-          }
+            }
         }
       },
       items: [

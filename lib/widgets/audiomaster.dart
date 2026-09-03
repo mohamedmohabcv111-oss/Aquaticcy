@@ -19,6 +19,12 @@ final List<String> _gamesongs = [
   'audio/One Piece OST Overtaken.mp3',
 ];
 
+final List<String> _sounds = [
+  'audio/LOSS SOUND.mp3',
+  'audio/Victory Sound.mp3',
+  'audio/Bruh sound.mp3',
+];
+
 Future<void> setupPlayer() async {
   await _player.setPlayerMode(PlayerMode.mediaPlayer);
   await _player.setReleaseMode(ReleaseMode.stop);
@@ -32,31 +38,41 @@ Future<void> setupPlayer() async {
 
 Future<void> _playcurrentsong() async {
   await _player.setVolume(_isMuted ? 0 : _volume);
-  await _player.setSource(AssetSource(_menusongs[_currentindex]));
+  await _player.setSource(AssetSource(_activesongs[_currentindex]));
   await _player.resume();
 }
 
 void _playNextSong() {
-  _currentindex = (_currentindex + 1) % _menusongs.length;
+  if (_activesongs == _sounds) return;
+  
+  _currentindex = (_currentindex + 1) % _activesongs.length;
 
   _playcurrentsong();
 }
 
-   Future<void> switchPlaylist(List<String> newPlaylist) async {
-    _activesongs = newPlaylist;
-    _currentindex = 0;
-
-    await _player.stop();
-    _playcurrentsong();
+Future<void> switchPlaylist(List<String> newPlaylist, [int? songindex]) async {
+  if (_activesongs == newPlaylist && (songindex == null || songindex == _currentindex)) {
+    return;
   }
 
-   Future<void> playGameMusic() async {
-    await switchPlaylist(_gamesongs);
-  }
+  _activesongs = newPlaylist;
+  _currentindex = songindex ?? 0;
 
-   Future<void> playMenuMusic() async {
-    await switchPlaylist(_menusongs);
-  }
+  await _player.stop();
+  await _playcurrentsong();
+}
+
+Future<void> playGameMusic() async {
+  await switchPlaylist(_gamesongs);
+}
+
+Future<void> playMenuMusic() async {
+  await switchPlaylist(_menusongs);
+}
+
+Future<void> playsound(int songindex) async {
+  await switchPlaylist(_sounds , songindex);
+}
 
 class Audiomaster extends StatefulWidget {
   const Audiomaster({super.key});
@@ -107,7 +123,7 @@ class _MyWidgetState extends State<Audiomaster> {
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 activeTrackColor: const Color(0xFF111921),
-                inactiveTrackColor: const Color(0xFF111921).withOpacity(0.3),
+                inactiveTrackColor: Color(0xFF111921).withValues(alpha: 0.3),
                 thumbColor: const Color(0xFF111921),
                 trackHeight: 6.0,
                 thumbShape: const RoundSliderThumbShape(

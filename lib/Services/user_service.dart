@@ -8,6 +8,11 @@ class UserService {
     await _firestore.collection('users').doc(uid).set(user.toMap());
   }
 
+
+
+
+
+
   Future<UserModel?> getuser(String uid) async {
     final document = await _firestore.collection('users').doc(uid).get();
 
@@ -17,6 +22,12 @@ class UserService {
 
     return UserModel.fromMap(document.data()!);
   }
+
+
+
+
+
+
 
   Future<List<UserModel?>> getallusers() async {
     final snapshot = await _firestore.collection("users").get();
@@ -29,11 +40,24 @@ class UserService {
     return allUsers;
   }
 
+
+
+
+
+
+
+
   Future<void> changeprofilepic(String uid , String imagepath) async {
     await _firestore.collection("users").doc(uid).update({
       'profilePicture' : imagepath,
     });
   }
+
+
+
+
+
+
 
   Future<void> addWin(String uid) async {
     await _firestore.collection('users').doc(uid).update({
@@ -54,4 +78,7 @@ class UserService {
       'gamesLost': FieldValue.increment(1),
     });
   }
+
+
+  
 }

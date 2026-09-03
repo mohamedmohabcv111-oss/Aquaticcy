@@ -1,6 +1,5 @@
 import 'package:aquaticcy/Services/user_service.dart';
 import 'package:aquaticcy/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -219,7 +218,6 @@ class _LoginState extends State<Login> {
                                       ),
 
                                       const SizedBox(height: 13),
-                                      //email
                                       Row(
                                         children: const [
                                           Icon(
@@ -277,7 +275,6 @@ class _LoginState extends State<Login> {
                                       ),
                                       const SizedBox(height: 13),
 
-                                      //password
                                       Row(
                                         children: const [
                                           Icon(
@@ -339,7 +336,6 @@ class _LoginState extends State<Login> {
 
                                       const SizedBox(height: 13),
 
-                                      //confirm password
                                       Row(
                                         children: [
                                           const Icon(
@@ -411,7 +407,6 @@ class _LoginState extends State<Login> {
 
                                       const SizedBox(height: 15),
 
-                                      //signup button
                                       GestureDetector(
                                         onTap: signUp,
                                         child: Container(
@@ -419,7 +414,7 @@ class _LoginState extends State<Login> {
                                               MediaQuery.of(
                                                 context,
                                               ).size.height *
-                                              0.08,
+                                              0.07,
                                           decoration: const BoxDecoration(
                                             color: Color(0xFF08683A),
                                             border: Border(
@@ -477,7 +472,6 @@ class _LoginState extends State<Login> {
 
                                   child: Column(
                                     children: [
-                                      //email
                                       Row(
                                         children: const [
                                           Icon(
@@ -533,7 +527,6 @@ class _LoginState extends State<Login> {
                                         ),
                                       ),
                                       const SizedBox(height: 40),
-                                      //password
                                       Row(
                                         children: const [
                                           Icon(
@@ -593,7 +586,6 @@ class _LoginState extends State<Login> {
 
                                       const SizedBox(height: 50),
 
-                                      //signin button
                                       GestureDetector(
                                         onTap: signIn,
                                         child: Container(
@@ -601,7 +593,7 @@ class _LoginState extends State<Login> {
                                               MediaQuery.of(
                                                 context,
                                               ).size.height *
-                                              0.08,
+                                              0.07,
                                           decoration: const BoxDecoration(
                                             color: Color(0xFF08683A),
                                             border: Border(

@@ -3,8 +3,6 @@ import 'package:aquaticcy/models/user_model.dart';
 import 'package:aquaticcy/widgets/appbar.dart';
 import 'package:aquaticcy/widgets/bottomnavbar.dart';
 import 'package:aquaticcy/widgets/drawer.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Leaderboard extends StatefulWidget {
@@ -132,7 +130,7 @@ class _LeaderboardState extends State<Leaderboard> {
                       user.gamesWon + user.gamesLost + user.gamesDrawn;
 
                   if (totalGames > 0) {
-                    winRateText = "${((user.gamesWon / totalGames) * 100)}%";
+                    winRateText = ((user.gamesWon / totalGames) * 100).toInt().toString();
                   }
 
                   return Container(
@@ -197,7 +195,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               Text(
                                 'Win Rate: $winRateText%',
                                 style: TextStyle(
-                                  color: textColor.withOpacity(0.8),
+                                  color: textColor.withValues(alpha: 0.8),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'monospace',
@@ -206,7 +204,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               Text(
                                 'Score: ${user.score}',
                                 style: TextStyle(
-                                  color: textColor.withOpacity(0.8),
+                                  color: textColor.withValues(alpha: 0.8),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'monospace',
@@ -215,7 +213,6 @@ class _LeaderboardState extends State<Leaderboard> {
                             ],
                           ),
                         ),
-                        // 1st Place Star Icon
                         if (index == 0)
                           Icon(Icons.star, color: borderColor, size: 32),
                       ],

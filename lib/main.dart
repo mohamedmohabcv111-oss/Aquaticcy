@@ -1,6 +1,7 @@
 import 'package:aquaticcy/pages/Choose.dart';
 import 'package:aquaticcy/pages/Login.dart';
 import 'package:aquaticcy/pages/Profile.dart';
+import 'package:aquaticcy/pages/Ticcy.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:aquaticcy/pages/Leaderboard.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.leaderboard: (context) => const Leaderboard(),
         AppRoutes.profile:(context)=> const Profile(),
         AppRoutes.choose:(context)=> const Choose(),
+        AppRoutes.ticcy:(context)=>const Ticcy(),
       },
     );
   }
