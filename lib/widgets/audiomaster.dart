@@ -51,9 +51,6 @@ void _playNextSong() {
 }
 
 Future<void> switchPlaylist(List<String> newPlaylist, [int? songindex]) async {
-  if (_activesongs == newPlaylist && (songindex == null || songindex == _currentindex)) {
-    return;
-  }
 
   _activesongs = newPlaylist;
   _currentindex = songindex ?? 0;
