@@ -29,33 +29,32 @@ class _MyWidgetState extends State<Ticcy> {
 
   UserModel? _player1Data;
   UserModel? _player2Data;
-  String? _loadedPlayer1Uid;
-  String? _loadedPlayer2Uid;
 
   Future<void> loadplayerdata(String player1UID, String? player2UID) async {
-    if (_loadedPlayer1Uid != player1UID) {
-      _loadedPlayer1Uid = player1UID;
-
+    if (_player1Data == null) {
       final p1 = await _userservice.getuser(player1UID);
 
-      setState(() {
-        _player1Data = p1;
-      });
+      if (mounted) {
+        setState(() {
+          _player1Data = p1;
+        });
+      }
     }
 
-    if (player2UID != null && _loadedPlayer2Uid != player2UID) {
-      _loadedPlayer2Uid = player2UID;
-
+    if (player2UID != null && _player2Data == null) {
       final p2 = await _userservice.getuser(player2UID);
 
-      setState(() {
-        _player2Data = p2;
-      });
-    } else if (player2UID == null && _loadedPlayer1Uid != null) {
-      setState(() {
-        _player2Data = null;
-        _loadedPlayer2Uid = null;
-      });
+      if (mounted) {
+        setState(() {
+          _player2Data = p2;
+        });
+      }
+    } else if (player2UID == null && _player2Data != null) {
+      if (mounted) {
+        setState(() {
+          _player2Data = null;
+        });
+      }
     }
   }
 
@@ -165,7 +164,7 @@ class _MyWidgetState extends State<Ticcy> {
 
               if (game.winner == 'draw') {
                 message = "IT'S A DRAW!";
-                messageColor = const Color(0xFFFFADDC);
+                messageColor = const Color.fromARGB(255, 222, 177, 248);
                 if (!_hasPlayedSound) {
                   _hasPlayedSound = true;
                   playsound(2);
@@ -590,19 +589,23 @@ class _MyWidgetState extends State<Ticcy> {
                                 vertical: 12,
                               ),
                               decoration: BoxDecoration(
-                                color: isMyTurn
-                                    ? const Color(0xFF4ADE80)
-                                    : const Color(0xFFFF5252),
+                                color: data['player2_uid'] == null
+                                    ? Colors.grey.shade300
+                                    : isMyTurn
+                                        ? const Color(0xFF4ADE80)
+                                        : const Color(0xFFFF5252),
                               ),
                               child: Text(
-                                isMyTurn ? 'YOUR TURN' : "OPPONENT'S TURN",
+                                data['player2_uid'] == null ? 'WAITING...' : isMyTurn ? 'YOUR TURN' : "OPPONENT'S TURN",
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 2.0,
-                                  color: isMyTurn
-                                      ? const Color(0xFF0F7038)
-                                      : const Color(0xFF5C0000),
+                                  color: data['player2_uid'] == null
+                                      ? const Color(0xFF111921)
+                                      : isMyTurn
+                                          ? const Color(0xFF0F7038)
+                                          : const Color(0xFF5C0000),
                                 ),
                               ),
                             ),
