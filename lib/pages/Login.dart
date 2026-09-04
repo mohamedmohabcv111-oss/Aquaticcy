@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
      setState(() {
       newemail = !answer;
     });
-    
+
   }
 
   Future<void> checking2(String emailController) async {

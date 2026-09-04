@@ -133,6 +133,12 @@ class _MyWidgetState extends State<Ticcy> {
               return const Center(child: CircularProgressIndicator());
             }
 
+            if (!snapshot.data!.exists || snapshot.data!.data() == null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              });
+              return const SizedBox.shrink();
+            }
 
             final data = snapshot.data!.data() as Map<String, dynamic>;
             final game = GameModel.fromMap(data);
@@ -218,7 +224,7 @@ class _MyWidgetState extends State<Ticcy> {
                           const SizedBox(height: 40),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.popUntil(context, (route) => route.isFirst);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(
@@ -268,7 +274,8 @@ class _MyWidgetState extends State<Ticcy> {
             return Stack(
               children: [
                 SafeArea(
-                  child: Padding(
+                  child: SingleChildScrollView(
+                    child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -605,6 +612,7 @@ class _MyWidgetState extends State<Ticcy> {
                         ],
                       ),
                     ),
+                  ),
                 ),
                 finishedScreen,
               ],

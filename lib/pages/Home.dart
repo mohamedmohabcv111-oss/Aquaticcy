@@ -16,7 +16,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController _gameIDcontroller = TextEditingController();
   final GameServices _gameservices = GameServices();
-
+  final user = FirebaseAuth.instance.currentUser;
+  
   Future<void> creatinggame() async {
     final userid = FirebaseAuth.instance.currentUser!.uid;
     final roomcode = await _gameservices.creategame(userid);
@@ -29,6 +30,7 @@ class _HomeState extends State<Home> {
   final success = await _gameservices.joingame(code, userid);
 
   if (success) {
+    _gameIDcontroller.clear();
     Navigator.pushNamed(context, '/ticcy', arguments: code);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(

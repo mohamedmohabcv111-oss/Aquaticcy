@@ -98,7 +98,7 @@ class AquaticcyDrawer extends StatelessWidget {
                             }
                           }
                           if (context.mounted) {
-                            Navigator.pushReplacementNamed(context, '/home');
+                            Navigator.popUntil(context, (route) => route.isFirst);
                           }
                         },
                         style: ElevatedButton.styleFrom(
