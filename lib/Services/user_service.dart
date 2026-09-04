@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user_model.dart';
 
 class UserService {
@@ -7,11 +8,6 @@ class UserService {
   Future<void> createUser(UserModel user, String uid) async {
     await _firestore.collection('users').doc(uid).set(user.toMap());
   }
-
-
-
-
-
 
   Future<UserModel?> getuser(String uid) async {
     final document = await _firestore.collection('users').doc(uid).get();
@@ -23,9 +19,17 @@ class UserService {
     return UserModel.fromMap(document.data()!);
   }
 
-
-
-
+  Future<bool> checkemail(String email) async {
+    final snapshot = await _firestore.collection("users").get();
+  
+    for (var document in snapshot.docs) {
+      final user = UserModel.fromMap(document.data());
+      if(user.email == email){
+        return true;
+      }
+    }
+    return false;
+  }
 
 
 
@@ -40,24 +44,11 @@ class UserService {
     return allUsers;
   }
 
-
-
-
-
-
-
-
-  Future<void> changeprofilepic(String uid , String imagepath) async {
+  Future<void> changeprofilepic(String uid, String imagepath) async {
     await _firestore.collection("users").doc(uid).update({
-      'profilePicture' : imagepath,
+      'profilePicture': imagepath,
     });
   }
-
-
-
-
-
-
 
   Future<void> addWin(String uid) async {
     await _firestore.collection('users').doc(uid).update({
@@ -78,7 +69,4 @@ class UserService {
       'gamesLost': FieldValue.increment(1),
     });
   }
-
-
-  
 }

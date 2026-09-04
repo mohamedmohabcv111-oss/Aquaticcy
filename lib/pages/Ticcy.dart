@@ -127,19 +127,12 @@ class _MyWidgetState extends State<Ticcy> {
         ),
         child: StreamBuilder<DocumentSnapshot>(
           stream: _gameservices.watchGame(roomcode),
+          
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (!snapshot.data!.exists) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (mounted) {
-                  Navigator.pushReplacementNamed(context, '/home');
-                }
-              });
-              return const SizedBox.shrink();
-            }
 
             final data = snapshot.data!.data() as Map<String, dynamic>;
             final game = GameModel.fromMap(data);
@@ -275,8 +268,7 @@ class _MyWidgetState extends State<Ticcy> {
             return Stack(
               children: [
                 SafeArea(
-                  child: SingleChildScrollView(
-                    child: Padding(
+                  child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -613,7 +605,6 @@ class _MyWidgetState extends State<Ticcy> {
                         ],
                       ),
                     ),
-                  ),
                 ),
                 finishedScreen,
               ],

@@ -16,6 +16,26 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
   final _confirmpassword = TextEditingController();
   bool _passwordsMatch = true;
+  final UserService _userservice = UserService();
+  bool newemail = true;
+  bool doesitexist = true;
+
+  Future<void> checking(String emailController) async {
+    final answer = await _userservice.checkemail(emailController);
+
+     setState(() {
+      newemail = !answer;
+    });
+    
+  }
+
+  Future<void> checking2(String emailController) async {
+    final answer = await _userservice.checkemail(emailController);
+
+    setState(() {
+      doesitexist = answer;
+    });
+  }
 
   Future signIn() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -25,25 +45,25 @@ class _LoginState extends State<Login> {
   }
 
   Future signUp() async {
-    try {
-      if (passwordconfirmed()) {
-        final credential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            );
+    setState(() {
+      newemail = true;
+    });
 
-        final userid = credential.user!.uid;
+    if (passwordconfirmed()) {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
 
-        final user = UserModel(
-          name: _nameController.text.trim(),
-          email: _emailController.text.trim(),
-        );
+      final userid = credential.user!.uid;
 
-        await UserService().createUser(user, userid);
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
+      final user = UserModel(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+      );
+
+      await _userservice.createUser(user, userid);
     }
   }
 
@@ -219,14 +239,14 @@ class _LoginState extends State<Login> {
 
                                       const SizedBox(height: 13),
                                       Row(
-                                        children: const [
-                                          Icon(
+                                        children: [
+                                          const Icon(
                                             Icons.email_outlined,
                                             size: 20,
                                             color: Color(0xFF003366),
                                           ),
-                                          SizedBox(width: 8),
-                                          Text(
+                                          const SizedBox(width: 8),
+                                          const Text(
                                             'EMAIL',
                                             style: TextStyle(
                                               fontFamily: 'Courier',
@@ -236,6 +256,17 @@ class _LoginState extends State<Login> {
                                               letterSpacing: 1.2,
                                             ),
                                           ),
+
+                                          if (!newemail)
+                                            const Text(
+                                              ' - EMAIL ALREADY IN USE',
+                                              style: TextStyle(
+                                                fontFamily: 'Courier',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                       const SizedBox(height: 8),
@@ -408,7 +439,17 @@ class _LoginState extends State<Login> {
                                       const SizedBox(height: 15),
 
                                       GestureDetector(
-                                        onTap: signUp,
+                                        onTap: () async {
+                                          passwordconfirmed();
+
+                                          await checking(
+                                            _emailController.text.trim(),
+                                          );
+
+                                          if (newemail) {
+                                            signUp();
+                                          }
+                                        },
                                         child: Container(
                                           height:
                                               MediaQuery.of(
@@ -473,14 +514,14 @@ class _LoginState extends State<Login> {
                                   child: Column(
                                     children: [
                                       Row(
-                                        children: const [
-                                          Icon(
+                                        children: [
+                                          const Icon(
                                             Icons.email_outlined,
                                             size: 20,
                                             color: Color(0xFF003366),
                                           ),
-                                          SizedBox(width: 8),
-                                          Text(
+                                          const SizedBox(width: 8),
+                                          const Text(
                                             'EMAIL',
                                             style: TextStyle(
                                               fontFamily: 'Courier',
@@ -490,6 +531,16 @@ class _LoginState extends State<Login> {
                                               letterSpacing: 1.2,
                                             ),
                                           ),
+                                          if (!doesitexist)
+                                            const Text(
+                                              ' - EMAIL DOES NOT EXIST',
+                                              style: TextStyle(
+                                                fontFamily: 'Courier',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                       const SizedBox(height: 8),
@@ -587,7 +638,18 @@ class _LoginState extends State<Login> {
                                       const SizedBox(height: 50),
 
                                       GestureDetector(
-                                        onTap: signIn,
+                                        onTap: () async {
+                                          passwordconfirmed();
+
+                                          await checking2(
+                                            _emailController.text.trim(),
+                                          );
+
+                                          if (doesitexist) {
+                                            signIn();
+                                          }
+                                        },
+
                                         child: Container(
                                           height:
                                               MediaQuery.of(
@@ -628,7 +690,7 @@ class _LoginState extends State<Login> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 40),
+                                      const SizedBox(height: 50),
 
                                       const Text(
                                         "Welcome back, warrior! Enter your details above \n to rejoin the AQUATICCY arena.",
