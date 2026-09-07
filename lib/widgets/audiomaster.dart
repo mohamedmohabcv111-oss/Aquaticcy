@@ -8,8 +8,8 @@ int _currentindex = 0;
 List<String> _activesongs = _menusongs;
 
 final List<String> _menusongs = [
-  'audio/C418 - Minecraft1.mp3',
   'audio/C418 - Minecraft2.mp3',
+  'audio/C418 - Minecraft1.mp3',
   'audio/C418 - Minecraft3.mp3',
   'audio/C418 - Minecraft4.mp3',
 ];
@@ -79,6 +79,7 @@ class Audiomaster extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Audiomaster> {
+
   void _toggleMute() {
     setState(() {
       _isMuted = !_isMuted;
@@ -101,20 +102,24 @@ class _MyWidgetState extends State<Audiomaster> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF90CDF4),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFF111921), width: 3),
         boxShadow: const [
-          BoxShadow(color: Color(0xFF111921), offset: Offset(4, 4)),
+          BoxShadow(color: Color(0xFF111921), offset: Offset(3, 3)),
         ],
       ),
       child: Row(
         children: [
-          IconButton(
-            icon: Icon(
-              _isMuted ? Icons.volume_off : Icons.volume_up,
-              color: const Color(0xFF111921),
-              size: 28,
+          Transform.translate(
+            offset: const Offset(25, 0),
+            child: IconButton(
+              icon: Icon(
+                _isMuted ? Icons.volume_off : Icons.volume_up,
+                color: const Color(0xFF111921),
+                size: 30,
+              ),
+              onPressed: _toggleMute,
             ),
-            onPressed: _toggleMute,
           ),
           Expanded(
             child: SliderTheme(
@@ -124,10 +129,10 @@ class _MyWidgetState extends State<Audiomaster> {
                 thumbColor: const Color(0xFF111921),
                 trackHeight: 6.0,
                 thumbShape: const RoundSliderThumbShape(
-                  enabledThumbRadius: 10.0,
+                  enabledThumbRadius: 9,
                 ),
                 overlayShape: const RoundSliderOverlayShape(
-                  overlayRadius: 20.0,
+                  overlayRadius: 26,
                 ),
               ),
               child: Slider(

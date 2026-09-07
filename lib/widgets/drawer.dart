@@ -28,7 +28,7 @@ class AquaticcyDrawer extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(
             top: 100, 
-            bottom: currentPage == 'Profile' || currentPage == 'Ticcy'? 500 : 375, 
+            bottom: currentPage == 'Profile' || currentPage == 'Ticcy'? 500 : 385, 
             left: 90
           ),
           padding: const EdgeInsets.all(20),
@@ -84,9 +84,10 @@ class AquaticcyDrawer extends StatelessWidget {
                   if (currentPage == 'Ticcy') ...[
                     Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(color: Colors.black, offset: Offset(4, 4)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0xFF111921), offset: Offset(3, 3)),
                         ],
                       ),
                       child: ElevatedButton(
@@ -105,9 +106,9 @@ class AquaticcyDrawer extends StatelessWidget {
                           backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                           foregroundColor: const Color(0xFF111921),
                           padding: const EdgeInsets.symmetric(vertical: 20),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
-                            side: BorderSide(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: const BorderSide(
                                 color: Color(0xFF111921), width: 3),
                           ),
                         ),
@@ -132,9 +133,10 @@ class AquaticcyDrawer extends StatelessWidget {
                     if (currentPage != 'Profile') ...[
                       Container(
                         width: double.infinity,
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(color: Colors.black, offset: Offset(4, 4)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: const [
+                            BoxShadow(color: Color(0xFF111921), offset: Offset(3, 3)),
                           ],
                         ),
                         child: ElevatedButton(
@@ -145,9 +147,9 @@ class AquaticcyDrawer extends StatelessWidget {
                             backgroundColor: const Color(0xFFFFADDC),
                             foregroundColor: const Color(0xFF111921),
                             padding: const EdgeInsets.symmetric(vertical: 20),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                              side: BorderSide(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(
                                   color: Color(0xFF111921), width: 3),
                             ),
                           ),
@@ -173,11 +175,12 @@ class AquaticcyDrawer extends StatelessWidget {
 
                     Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
                           BoxShadow(
                             color: Color(0xFF111921),
-                            offset: Offset(4, 4),
+                            offset: Offset(3, 3),
                           ),
                         ],
                       ),
@@ -186,9 +189,9 @@ class AquaticcyDrawer extends StatelessWidget {
                           backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                           foregroundColor: Colors.black,
                           padding: const EdgeInsets.symmetric(vertical: 20),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
-                            side: BorderSide(color: Color(0xFF111921), width: 3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: const BorderSide(color: Color(0xFF111921), width: 3),
                           ),
                         ),
                         child: const Row(

@@ -134,14 +134,12 @@ class _MyWidgetState extends State<Profile> {
                             const SizedBox(height: 12),
 
                             Container(
-                              decoration: const BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xFF111921),
-                                    offset: Offset(4, 4),
-                                  ),
-                                ],
-                              ),
+                                 decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          boxShadow: const [
+                            BoxShadow(color: Color(0xFF111921), offset: Offset(3, 3)),
+                          ],
+                        ),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/choose');
@@ -153,13 +151,11 @@ class _MyWidgetState extends State<Profile> {
                                     horizontal: 16,
                                     vertical: 12,
                                   ),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                    side: BorderSide(
-                                      color: Color(0xFF111921),
-                                      width: 3,
-                                    ),
-                                  ),
+                                   shape:  RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7),
+                              side: BorderSide(
+                                  color: Color(0xFF111921), width: 3),
+                            ),
                                 ),
                                 child: const Row(
                                   mainAxisSize: MainAxisSize.min,

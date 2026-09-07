@@ -24,16 +24,17 @@ class _MyWidgetState extends State<Choose> {
   }
 
   Future<void> savechoice() async {
-    
     if (selectedImagePath != null) {
       final firebaseuser = FirebaseAuth.instance.currentUser;
       if (firebaseuser != null) {
-        
         setState(() {
           isSaved = true;
         });
 
-        await _userservice.changeprofilepic(firebaseuser.uid,selectedImagePath!,);
+        await _userservice.changeprofilepic(
+          firebaseuser.uid,
+          selectedImagePath!,
+        );
 
         Future.delayed(const Duration(milliseconds: 600), () {
           if (mounted) {
@@ -42,7 +43,6 @@ class _MyWidgetState extends State<Choose> {
             });
           }
         });
-
       }
     }
   }
@@ -130,7 +130,7 @@ class _MyWidgetState extends State<Choose> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 127, 207, 253),
                     foregroundColor: const Color(0xFF111921),
-                    padding: const EdgeInsets.symmetric(vertical: 14), 
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
                       side: BorderSide(color: Color(0xFF111921), width: 3),
@@ -148,15 +148,20 @@ class _MyWidgetState extends State<Choose> {
                 ),
               ),
 
-              if (isSaved)
-                const SizedBox(height: 10), 
+              if (isSaved) const SizedBox(height: 10),
 
               if (isSaved)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6), 
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF4CAF50), 
-                    border: Border.all(color: const Color(0xFF111921), width: 3),
+                    color: const Color(0xFF4CAF50),
+                    border: Border.all(
+                      color: const Color(0xFF111921),
+                      width: 3,
+                    ),
                     boxShadow: const [
                       BoxShadow(color: Color(0xFF111921), offset: Offset(2, 2)),
                     ],
