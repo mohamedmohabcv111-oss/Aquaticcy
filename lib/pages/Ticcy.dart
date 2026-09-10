@@ -30,25 +30,41 @@ class _MyWidgetState extends State<Ticcy> {
   UserModel? _player1Data;
   UserModel? _player2Data;
 
+  bool _isFetchingP1 = false;
+  bool _isFetchingP2 = false;
+
   Future<void> loadplayerdata(String player1UID, String? player2UID) async {
 
-    if (_player1Data == null) {
+    if (_player1Data == null && !_isFetchingP1) {
+      _isFetchingP1 = true;
       final p1 = await _userservice.getuser(player1UID);
 
       if (mounted) {
         setState(() {
           _player1Data = p1;
+          _isFetchingP1 = p1 == null;
         });
+        if (p1 == null) {
+           _isFetchingP1 = true;
+        } else {
+           _isFetchingP1 = false;
+        }
       }
     }
 
-    if (player2UID != null && _player2Data == null) {
+    if (player2UID != null && _player2Data == null && !_isFetchingP2) {
+      _isFetchingP2 = true;
       final p2 = await _userservice.getuser(player2UID);
 
       if (mounted) {
         setState(() {
           _player2Data = p2;
         });
+        if (p2 == null) {
+          _isFetchingP2 = true; 
+        } else {
+          _isFetchingP2 = false;
+        }
       }
     } else if (player2UID == null && _player2Data != null) {
       if (mounted) {
