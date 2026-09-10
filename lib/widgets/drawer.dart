@@ -13,7 +13,7 @@ class AquaticcyDrawer extends StatelessWidget {
   void signout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     if (context.mounted) {
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     }
   }
 
@@ -99,7 +99,7 @@ class AquaticcyDrawer extends StatelessWidget {
                             }
                           }
                           if (context.mounted) {
-                            Navigator.popUntil(context, (route) => route.isFirst);
+                            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                           }
                         },
                         style: ElevatedButton.styleFrom(

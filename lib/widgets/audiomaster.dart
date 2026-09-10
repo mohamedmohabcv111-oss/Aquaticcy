@@ -26,6 +26,23 @@ final List<String> _sounds = [
 ];
 
 Future<void> setupPlayer() async {
+  
+  await AudioPlayer.global.setAudioContext(AudioContextConfig(
+    respectSilence: false,
+    stayAwake: true,
+  ).build());
+
+
+  try {
+    await AudioCache.instance.loadAll([
+      ..._menusongs,
+      ..._gamesongs,
+      ..._sounds,
+    ]);
+  } catch (e) {
+    debugPrint("Failed to pre-load audio: $e");
+  }
+
   await _player.setPlayerMode(PlayerMode.mediaPlayer);
   await _player.setReleaseMode(ReleaseMode.stop);
 

@@ -18,19 +18,21 @@ class _HomeState extends State<Home> {
   final GameServices _gameservices = GameServices();
   final user = FirebaseAuth.instance.currentUser;
 
-  Future<void> creatinggame() async {
+  Future<void> creatinggame(BuildContext dialogContext) async {
     final userid = FirebaseAuth.instance.currentUser!.uid;
     final roomcode = await _gameservices.creategame(userid);
 
+    Navigator.pop(dialogContext);
     Navigator.pushNamed(context, '/ticcy', arguments: roomcode);
   }
 
-  Future<bool> joininggame(String code) async {
+  Future<bool> joininggame(String code, BuildContext joinDialogContext) async {
     final userid = FirebaseAuth.instance.currentUser!.uid;
     final success = await _gameservices.joingame(code, userid);
 
     if (success) {
       _gameIDcontroller.clear();
+      Navigator.pop(joinDialogContext);
       Navigator.pushNamed(context, '/ticcy', arguments: code);
       return true;
     } else {
@@ -240,7 +242,7 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                         onPressed: () {
-                                          creatinggame();
+                                          creatinggame(dialogcontext);
                                         },
                                       ),
                                     ),
@@ -293,11 +295,12 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                         onPressed: () {
+                                          Navigator.pop(dialogcontext);
                                           bool showJoinError = false;
 
                                           showDialog(
                                             context: context,
-                                            builder: (dialogcontext) {
+                                            builder: (joinDialogContext) {
                                               return StatefulBuilder(
                                                 builder: (context, setDialogState) {
                                                   final bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
@@ -387,7 +390,7 @@ class _HomeState extends State<Home> {
                                                                       ),
                                                                       onPressed: () {
                                                                         Navigator.of(
-                                                                          dialogcontext,
+                                                                          joinDialogContext,
                                                                         ).pop();
                                                                       },
                                                                     ),
@@ -531,6 +534,7 @@ class _HomeState extends State<Home> {
                                                                       final success = await joininggame(
                                                                         _gameIDcontroller
                                                                             .text,
+                                                                        joinDialogContext,
                                                                       );
                                                                       if (!success) {
                                                                         setDialogState(() {

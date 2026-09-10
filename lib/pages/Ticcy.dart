@@ -20,8 +20,11 @@ class Ticcy extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Ticcy> {
+  final myUid = FirebaseAuth.instance.currentUser!.uid;
   final GameServices _gameservices = GameServices();
   final UserService _userservice = UserService();
+  late Stream<DocumentSnapshot> _gameStream;
+  bool _isStreamInitialized = false;
 
   bool _gameEndHandled = false;
   bool _showCopied = false;
@@ -30,41 +33,25 @@ class _MyWidgetState extends State<Ticcy> {
   UserModel? _player1Data;
   UserModel? _player2Data;
 
-  bool _isFetchingP1 = false;
-  bool _isFetchingP2 = false;
-
   Future<void> loadplayerdata(String player1UID, String? player2UID) async {
 
-    if (_player1Data == null && !_isFetchingP1) {
-      _isFetchingP1 = true;
+    if (_player1Data == null) {
       final p1 = await _userservice.getuser(player1UID);
 
       if (mounted) {
         setState(() {
           _player1Data = p1;
-          _isFetchingP1 = p1 == null;
         });
-        if (p1 == null) {
-           _isFetchingP1 = true;
-        } else {
-           _isFetchingP1 = false;
-        }
       }
     }
 
-    if (player2UID != null && _player2Data == null && !_isFetchingP2) {
-      _isFetchingP2 = true;
+    if (player2UID != null && _player2Data == null) {
       final p2 = await _userservice.getuser(player2UID);
 
       if (mounted) {
         setState(() {
           _player2Data = p2;
         });
-        if (p2 == null) {
-          _isFetchingP2 = true; 
-        } else {
-          _isFetchingP2 = false;
-        }
       }
     } else if (player2UID == null && _player2Data != null) {
       if (mounted) {
@@ -81,15 +68,23 @@ class _MyWidgetState extends State<Ticcy> {
 
     if (result == 'draw') {
       await _gameservices.endgame(roomcode, 'draw');
-      await _userservice.addDraw(player1);
-      await _userservice.addDraw(player2);
+      
+     
+      if (myUid == player1 || myUid == player2) {
+        await _userservice.addDraw(myUid);
+      }
     } else {
       final winnerUid = (result == 'X') ? player1 : player2;
       final loserUid = (result == 'X') ? player2 : player1;
 
       await _gameservices.endgame(roomcode, winnerUid);
-      await _userservice.addWin(winnerUid);
-      await _userservice.addLoss(loserUid);
+      
+     
+      if (myUid == winnerUid) {
+        await _userservice.addWin(myUid);
+      } else if (myUid == loserUid) {
+        await _userservice.addLoss(myUid);
+      }
     }
   }
 
@@ -97,6 +92,16 @@ class _MyWidgetState extends State<Ticcy> {
   void initState() {
     super.initState();
     playGameMusic();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isStreamInitialized) {
+      final roomcode = ModalRoute.of(context)!.settings.arguments as String;
+      _gameStream = _gameservices.watchGame(roomcode);
+      _isStreamInitialized = true;
+    }
   }
 
   @override
@@ -118,7 +123,7 @@ class _MyWidgetState extends State<Ticcy> {
   @override
   Widget build(BuildContext context) {
     final roomcode = ModalRoute.of(context)!.settings.arguments as String;
-    final myUid = FirebaseAuth.instance.currentUser!.uid;
+   
 
     return Scaffold(
       appBar: AquaticcyAppBar(),
@@ -139,7 +144,7 @@ class _MyWidgetState extends State<Ticcy> {
           ),
         ),
         child: StreamBuilder<DocumentSnapshot>(
-          stream: _gameservices.watchGame(roomcode),
+          stream: _gameStream,
           
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -148,7 +153,7 @@ class _MyWidgetState extends State<Ticcy> {
 
             if (!snapshot.data!.exists || snapshot.data!.data() == null) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               });
               return const SizedBox.shrink();
             }
@@ -237,7 +242,7 @@ class _MyWidgetState extends State<Ticcy> {
                           const SizedBox(height: 40),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.popUntil(context, (route) => route.isFirst);
+                              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(
