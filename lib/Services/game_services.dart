@@ -17,6 +17,7 @@ class GameServices {
     return code;
   }
 
+
   Future<String> creategame(String myuid) async {
     final roomcode = generateroomcode();
 
@@ -26,6 +27,9 @@ class GameServices {
 
     return roomcode;
   }
+
+
+
 
   Future<bool> joingame(String roomcode, String myuid) async {
     final docpointer = _firestore.collection("games").doc(roomcode);
@@ -46,12 +50,9 @@ class GameServices {
     return true;
   }
 
-  Future<void> makeMove({
-    required String roomcode,
-    required int cellIndex,
-    required String symbol,
-    required String nextTurnUid,
-  }) async {
+
+
+  Future<void> makeMove({required String roomcode,required int cellIndex, required String symbol,required String nextTurnUid,}) async {
     final docpointer = _firestore.collection('games').doc(roomcode);
     final doc = await docpointer.get();
 

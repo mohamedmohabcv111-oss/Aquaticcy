@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:aquaticcy/widgets/audiomaster.dart';
@@ -31,6 +31,7 @@ class _MyWidgetState extends State<Ticcy> {
   UserModel? _player2Data;
 
   Future<void> loadplayerdata(String player1UID, String? player2UID) async {
+
     if (_player1Data == null) {
       final p1 = await _userservice.getuser(player1UID);
 
@@ -58,11 +59,7 @@ class _MyWidgetState extends State<Ticcy> {
     }
   }
 
-  Future<void> _handleGameEnd(
-    String result,
-    Map<String, dynamic> data,
-    String roomcode,
-  ) async {
+  Future<void> _handleGameEnd(String result,Map<String, dynamic> data,String roomcode,) async {
     final player1 = data['player1_uid'];
     final player2 = data['player2_uid'];
 
@@ -437,7 +434,7 @@ class _MyWidgetState extends State<Ticcy> {
                                           _showCopied = true;
                                         });
                                         Future.delayed(
-                                          const Duration(seconds: 2),
+                                          const Duration(milliseconds: 600),
                                           () {
                                             if (mounted) {
                                               setState(() {
